@@ -36,7 +36,8 @@ jobs:
           cp *.cpp "$SKETCH"/ 2>/dev/null || true
           cp *.h   "$SKETCH"/ 2>/dev/null || true
           arduino-cli compile \
-            --fqbn esp32:esp32:esp32s3:FlashSize=16M,PSRAM=opi,USBMode=hwcdc,CDCOnBoot=cdc \
+          --fqbn esp32:esp32:esp32s3:FlashSize=16M,PSRAM=opi,USBMode=hwcdc,CDCOnBoot=cdc
+          --build-property compiler.cpp.extra_flags=-fpermissive
             --output-dir build \
             "$SKETCH"
 
