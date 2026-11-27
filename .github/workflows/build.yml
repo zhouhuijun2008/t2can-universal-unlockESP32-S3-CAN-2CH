@@ -23,6 +23,10 @@ jobs:
           arduino-cli core update-index
           arduino-cli core install esp32:esp32@2.0.17
 
+      - name: Install libraries
+        run: |
+          arduino-cli lib install "MCP2515"
+
       - name: Compile sketch
         run: |
           SKETCH="T2CAN-Universal-v3.30.3-LP_YL"
