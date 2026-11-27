@@ -25,7 +25,8 @@ jobs:
 
       - name: Install libraries
         run: |
-          arduino-cli lib install "MCP2515"
+          arduino-cli lib install "autowp-mcp2515" || \
+          git clone --depth 1 https://github.com/autowp/arduino-mcp2515.git "$HOME/Arduino/libraries/arduino-mcp2515"
 
       - name: Compile sketch
         run: |
