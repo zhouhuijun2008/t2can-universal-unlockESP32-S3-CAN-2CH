@@ -4504,9 +4504,16 @@ static void httpR79ApControlUpdate() {
       !r79DelayTextParsePure(delay.c_str(), 10u, seconds) || seconds < 2u) {
     server.send(400, "application/json", "{\"error\":\"invalid-ap-control-setting\"}");
     return;
-  }
-  const R79ApGateConfigPure next = {enabled == "1", (uint8_t)(mode == "1"), (uint8_t)seconds, allowManual == "1"};
-  if (!r79ApControlApply(next)) {
+      }
+
+    R79ApGateConfigPure next;
+    next.enabled     = (enabled == "1") ? 1 : 0;
+    next.mode        = (mode == "1") ? 1 : 0;
+    next.seconds     = seconds;
+    next.allowManual = (allowManual == "1") ? 1 : 0;
+
+    if (!r79ApControlApply(next)) {
+
     server.send(503, "application/json", "{\"error\":\"ap-control-save-failed\"}");
     return;
   }
