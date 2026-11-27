@@ -4507,10 +4507,10 @@ static void httpR79ApControlUpdate() {
       }
 
     R79ApGateConfigPure next;
-    next.enabled     = (enabled == "1") ? 1 : 0;
-    next.mode        = (mode == "1") ? 1 : 0;
-    next.seconds     = seconds;
-    next.allowManual = (allowManual == "1") ? 1 : 0;
+next.enabled            = (enabled == "1") ? 1 : 0;
+next.mode               = (mode == "1") ? 1 : 0;
+next.delaySeconds       = seconds;
+next.allowManualDriving = (allowManual == "1") ? 1 : 0;
 
     if (!r79ApControlApply(next)) {
 
