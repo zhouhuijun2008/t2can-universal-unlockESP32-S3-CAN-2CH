@@ -9,7 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Install arduino-cli
         run: |
@@ -28,16 +29,20 @@ jobs:
           arduino-cli lib install "autowp-mcp2515" || \
           git clone --depth 1 https://github.com/autowp/arduino-mcp2515.git "$HOME/Arduino/libraries/arduino-mcp2515"
 
-      - name: Compile sketch
+      - name: Prepare sketch folder
         run: |
           SKETCH="T2CAN-Universal-v3.30.3-LP_YL"
           mkdir -p "$SKETCH"
           cp *.ino "$SKETCH"/ 2>/dev/null || true
           cp *.cpp "$SKETCH"/ 2>/dev/null || true
           cp *.h   "$SKETCH"/ 2>/dev/null || true
+
+      - name: Compile sketch
+        run: |
+          SKETCH="T2CAN-Universal-v3.30.3-LP_YL"
           arduino-cli compile \
-          --fqbn esp32:esp32:esp32s3:FlashSize=16M,PSRAM=opi,USBMode=hwcdc,CDCOnBoot=cdc
-          --build-property compiler.cpp.extra_flags=-fpermissive
+            --fqbn esp32:esp32:esp32s3:FlashSize=16M,PSRAM=opi,USBMode=hwcdc,CDCOnBoot=cdc \
+            --build-property compiler.cpp.extra_flags=-fpermissive \
             --output-dir build \
             "$SKETCH"
 
@@ -49,3 +54,4 @@ jobs:
             build/*.bin
             build/*.uf2
             build/*.elf
+          if-no-files-found: warn
